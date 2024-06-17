@@ -6,6 +6,8 @@ import {
   __federation_method_setRemote,
   // @ts-ignore
 } from "__federation__";
+import { RemoteConfig } from "./RemoteConfig";
+
 function determineRemote(useProducerA: boolean): RemoteConfig {
   const remoteConfig = useProducerA
     ? {
