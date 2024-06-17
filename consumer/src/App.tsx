@@ -38,11 +38,6 @@ function App() {
 
   useEffect(() => {
     const remoteConfig = DetermineRemote(useProducerA);
-    __federation_method_setRemote(remoteConfig.name, {
-      url: () => Promise.resolve(remoteConfig.url),
-      format: "esm",
-      from: "vite",
-    });
     setRemoteConfig(remoteConfig);
   }, [useProducerA]);
 
