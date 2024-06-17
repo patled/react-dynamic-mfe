@@ -10,7 +10,7 @@ export default defineConfig({
       name: "producerB",
       filename: "remoteEntry.js",
       exposes: {
-        "./ProducerB": "./src/App.tsx",
+        moduleB: "./src/App.tsx",
       },
       shared: ["react", "react-dom"],
     }),

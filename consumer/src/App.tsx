@@ -11,12 +11,12 @@ function determineRemote(useProducerA: boolean): RemoteConfig {
     ? {
         url: "http://localhost:9000/assets/remoteEntry.js",
         name: "producerA",
-        module: "./ProducerA",
+        module: "moduleA",
       }
     : {
         url: "http://localhost:9001/assets/remoteEntry.js",
         name: "producerB",
-        module: "./ProducerB",
+        module: "moduleB",
       };
   return remoteConfig;
 }
