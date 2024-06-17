@@ -1,3 +1,7 @@
-.lime {
+.main {
   color: lime;
+  border: 1px solid lime;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
