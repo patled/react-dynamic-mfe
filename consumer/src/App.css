@@ -6,10 +6,9 @@
 }
 
 .app-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1em;
+  display: flex;
   justify-content: center;
   background-color: #f8f8f8;
   height: 10rem;
+  padding: 1rem;
 }
