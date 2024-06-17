@@ -6,14 +6,7 @@ import {
   __federation_method_setRemote,
   // @ts-ignore
 } from "__federation__";
-
-interface RemoteConfig {
-  url: string;
-  name: string;
-  module: string;
-}
-
-function DetermineRemote(useProducerA: boolean): RemoteConfig {
+function determineRemote(useProducerA: boolean): RemoteConfig {
   const remoteConfig = useProducerA
     ? {
         url: "http://localhost:9000/assets/remoteEntry.js",
@@ -37,7 +30,7 @@ function App() {
   });
 
   useEffect(() => {
-    const remoteConfig = DetermineRemote(useProducerA);
+    const remoteConfig = determineRemote(useProducerA);
     setRemoteConfig(remoteConfig);
   }, [useProducerA]);
 
