@@ -36,6 +36,22 @@ function App() {
     setRemoteConfig(remoteConfig);
   }, [useProducerA]);
 
+  useEffect(() => {
+    const element = document.querySelector(".app-container");
+
+    if (!element) {
+      return;
+    }
+
+    console.log("Adding event listener to remote app");
+
+    element.addEventListener("custom-change", handleCustomeEvent);
+
+    return () => {
+      element.removeEventListener("custom-change", handleCustomeEvent);
+    };
+  });
+
   const DynamicRemoteApp = React.lazy(() => {
     const { url, name, module } = remoteConfig;
 
@@ -51,6 +67,10 @@ function App() {
   function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
     setUseProducerA(isChecked);
+  }
+
+  function handleCustomeEvent(e: Event) {
+    console.log("Event from remote app", e);
   }
 
   return (
