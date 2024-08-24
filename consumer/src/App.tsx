@@ -1,76 +1,51 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
+import { RemoteConfig } from "./hooks/remote-config";
+import { useFederatedModule } from "./hooks/useFederatedModule";
 
-import {
-  __federation_method_getRemote,
-  __federation_method_setRemote,
-  // @ts-ignore
-} from "__federation__";
-import { RemoteConfig } from "./RemoteConfig";
+const configProducerA: RemoteConfig = {
+  remoteEntryUrl: import.meta.env.VITE_CDF_MICROFRONTEND_URL,
+  remoteName: "cdf",
+  exposedModuleName: "./OrganizationsComponent",
+};
 
-function determineRemote(useProducerA: boolean): RemoteConfig {
-  const remoteConfig = useProducerA
-    ? {
-        url: "http://localhost:9000/assets/remoteEntry.js",
-        name: "producerA",
-        module: "moduleA",
-      }
-    : {
-        url: "http://localhost:9001/assets/remoteEntry.js",
-        name: "producerB",
-        module: "moduleB",
-      };
-  return remoteConfig;
-}
+const configProducerB: RemoteConfig = {
+  remoteEntryUrl: import.meta.env.VITE_CDF_MICROFRONTEND_URL,
+  remoteName: "cdf",
+  exposedModuleName: "./BusinessPartnerForm",
+};
 
 function App() {
   const [useProducerA, setUseProducerA] = React.useState(false);
-  const [remoteConfig, setRemoteConfig] = React.useState({
-    url: "",
-    name: "",
-    module: "",
-  });
+  const [remoteConfig, setRemoteConfig] = React.useState(configProducerA);
 
-  useEffect(() => {
-    const remoteConfig = determineRemote(useProducerA);
-    setRemoteConfig(remoteConfig);
-  }, [useProducerA]);
+  const {
+    module: DynamicRemoteApp,
+    isLoading,
+    error,
+  } = useFederatedModule(remoteConfig);
 
-  useEffect(() => {
-    const element = document.querySelector(".app-container");
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-    if (!element) {
-      return;
-    }
+  if (error) {
+    return <div>Error loading component: {error.toString()}</div>;
+  }
 
-    console.log("Adding event listener to remote app");
+  if (!DynamicRemoteApp) {
+    return <div>Component not found</div>;
+  }
 
-    element.addEventListener("custom-change", handleCustomeEvent);
-
-    return () => {
-      element.removeEventListener("custom-change", handleCustomeEvent);
-    };
-  });
-
-  const DynamicRemoteApp = React.lazy(() => {
-    const { url, name, module } = remoteConfig;
-
-    __federation_method_setRemote(name, {
-      url: () => Promise.resolve(url),
-      format: "esm",
-      from: "vite",
-    });
-
-    return __federation_method_getRemote(name, module);
-  });
+  const handleRemoteChange = (newValue: string | null) => {
+    console.log("Remote changed:", newValue);
+  };
 
   function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
     setUseProducerA(isChecked);
-  }
-
-  function handleCustomeEvent(e: Event) {
-    console.log("Event from remote app", e);
+    const remoteConfig = isChecked ? configProducerA : configProducerB;
+    setRemoteConfig(remoteConfig);
   }
 
   return (
@@ -91,7 +66,7 @@ function App() {
 
       <div className="app-container">
         <React.Suspense fallback="Loading">
-          <DynamicRemoteApp />
+          <DynamicRemoteApp onChange={handleRemoteChange} />
         </React.Suspense>
       </div>
     </div>
