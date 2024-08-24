@@ -4,15 +4,15 @@ import { RemoteConfig } from "./hooks/remote-config";
 import { useFederatedModule } from "./hooks/useFederatedModule";
 
 const configProducerA: RemoteConfig = {
-  remoteEntryUrl: import.meta.env.VITE_CDF_MICROFRONTEND_URL,
-  remoteName: "cdf",
-  exposedModuleName: "./OrganizationsComponent",
+  remoteEntryUrl: "http://localhost:9000/assets/remoteEntry.js",
+  remoteName: "producerA",
+  exposedModuleName: "moduleA",
 };
 
 const configProducerB: RemoteConfig = {
-  remoteEntryUrl: import.meta.env.VITE_CDF_MICROFRONTEND_URL,
-  remoteName: "cdf",
-  exposedModuleName: "./BusinessPartnerForm",
+  remoteEntryUrl: "http://localhost:9001/assets/remoteEntry.js",
+  remoteName: "producerB",
+  exposedModuleName: "moduleB",
 };
 
 function App() {
