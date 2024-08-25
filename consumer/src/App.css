@@ -8,7 +8,6 @@
 .app-container {
   display: flex;
   justify-content: center;
-  background-color: #f8f8f8;
   height: 10rem;
   padding: 1rem;
 }
