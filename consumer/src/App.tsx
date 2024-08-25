@@ -17,7 +17,7 @@ const configProducerB: RemoteConfig = {
 
 function App() {
   const [useProducerA, setUseProducerA] = React.useState(false);
-  const [remoteConfig, setRemoteConfig] = React.useState(configProducerA);
+  const [remoteConfig, setRemoteConfig] = React.useState(configProducerB);
 
   const {
     module: DynamicRemoteApp,
