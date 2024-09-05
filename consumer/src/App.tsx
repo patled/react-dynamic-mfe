@@ -37,8 +37,8 @@ function App() {
     return <div>Component not found</div>;
   }
 
-  const handleRemoteChange = (newValue: string | null) => {
-    console.log("Remote changed:", newValue);
+  const handleRemoteChange = (event: CustomEvent) => {
+    console.log("Remote changed:", event);
   };
 
   function handleCheckboxChange(e: React.ChangeEvent<HTMLInputElement>) {
