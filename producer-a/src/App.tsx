@@ -1,16 +1,23 @@
 import React from "react";
 import styles from "./App.module.css";
 
-function App() {
+type AppProps = {
+  onChange?: (e: CustomEvent) => void;
+};
+
+function App(props: AppProps) {
   function dispatchChangeEvent(e: React.MouseEvent<HTMLButtonElement>) {
-    console.log("dispatchChangeEvent: ", e);
-    const changeEvent = new CustomEvent("custom-change", {
-      detail: {
-        message: "Hello from Module A",
-      },
-      bubbles: true,
-    });
-    e.currentTarget.dispatchEvent(changeEvent);
+    if (props.onChange) {
+      console.log("dispatchChangeEvent: ", e);
+
+      const changeEvent = new CustomEvent("custom-change", {
+        detail: {
+          message: "Hello from Module A",
+        },
+        bubbles: true,
+      });
+      props.onChange(changeEvent);
+    }
   }
 
   return (
